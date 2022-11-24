@@ -18,6 +18,7 @@ class _Register extends State<Register> {
   bool _obscureText = true;
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _passwordagain = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class _Register extends State<Register> {
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             hintText: "Email",
+            hintStyle: const TextStyle(color: Colors.orangeAccent),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
 
@@ -56,6 +58,40 @@ class _Register extends State<Register> {
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             hintText: "Password",
+            hintStyle: const TextStyle(color: Colors.orangeAccent),
+            suffixIcon: IconButton(
+              icon:
+                  Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  _obscureText = !_obscureText;
+                });
+              },
+            ),
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
+
+    final passwordgainField = TextFormField(
+        obscureText: _obscureText,
+        controller: _passwordagain,
+        autofocus: false,
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return 'This field is required';
+          }
+          if (value.trim().length < 8) {
+            return 'Password must be at least 8 characters in length';
+          }
+          if (value != _password.text) {
+            return 'Passwords are not the same!!!';
+          }
+          // Return null if the entered password is valid
+          return null;
+        },
+        decoration: InputDecoration(
+            contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            hintText: "Password Again",
+            hintStyle: const TextStyle(color: Colors.orangeAccent),
             suffixIcon: IconButton(
               icon:
                   Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
@@ -77,7 +113,7 @@ class _Register extends State<Register> {
     final registerButton = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Theme.of(context).primaryColor,
+      color: Colors.orange,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -86,7 +122,6 @@ class _Register extends State<Register> {
             dynamic result = await _auth.registerEmailPassword(
                 LoginUser(email: _email.text, password: _password.text));
             if (result.uid == null) {
-              //null means unsuccessfull authentication
               showDialog(
                   context: context,
                   builder: (context) {
@@ -97,9 +132,12 @@ class _Register extends State<Register> {
             }
           }
         },
-        child: Text(
+        child: const Text(
           "Register",
-          style: TextStyle(color: Theme.of(context).primaryColorLight),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
           textAlign: TextAlign.center,
         ),
       ),
@@ -108,11 +146,11 @@ class _Register extends State<Register> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Registration Demo Page'),
-        backgroundColor: Theme.of(context).primaryColor,
+        title: const Center(child: Text('Registration Page')),
+        backgroundColor: Colors.orange,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Form(
             autovalidateMode: AutovalidateMode.always,
@@ -123,15 +161,24 @@ class _Register extends State<Register> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const SizedBox(height: 45.0),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset('images/login.jpg',
+                        width: 400, height: 400),
+                  ),
+                  const SizedBox(
+                    height: 40,
+                  ),
                   emailField,
-                  const SizedBox(height: 25.0),
-                  passwordField,
-                  const SizedBox(height: 25.0),
-                  txtbutton,
-                  const SizedBox(height: 35.0),
-                  registerButton,
                   const SizedBox(height: 15.0),
+                  passwordField,
+                  const SizedBox(height: 15.0),
+                  passwordgainField,
+                  const SizedBox(height: 15.0),
+                  txtbutton,
+                  const SizedBox(height: 15.0),
+                  registerButton,
+                  const SizedBox(height: 10.0),
                 ],
               ),
             ),

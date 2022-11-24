@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_number_picker/flutter_number_picker.dart';
 import 'package:get/get.dart';
-
 import '../order/orderinfo_page.dart';
 
 class NCartPage extends StatefulWidget {
@@ -13,15 +12,37 @@ class NCartPage extends StatefulWidget {
   State<NCartPage> createState() => NCartPageState();
 }
 
+class CustomTextStyle {
+  static const TextStyle titleOfTextStyle = TextStyle(
+    fontSize: 18,
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+  );
+  static const TextStyle priceOfTextStyle = TextStyle(
+    fontSize: 18,
+    color: Colors.red,
+    fontWeight: FontWeight.bold,
+  );
+  static const TextStyle qtyOfTextStyle = TextStyle(
+    fontSize: 16,
+    color: Colors.black,
+  );
+}
+
 class NCartPageState extends State<NCartPage> {
   int qty = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.black),
+        centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const Text("Cart"),
+        backgroundColor: Colors.white,
+        title: const Text(
+          "Cart",
+          style: TextStyle(color: Colors.black, fontSize: 30),
+        ),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
@@ -38,7 +59,7 @@ class NCartPageState extends State<NCartPage> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                   child: Container(
-                    height: 150,
+                    height: 200,
                     decoration: BoxDecoration(
                       boxShadow: [
                         BoxShadow(
@@ -57,8 +78,8 @@ class NCartPageState extends State<NCartPage> {
                         Row(
                           children: [
                             SizedBox(
-                              height: 100,
-                              width: 100,
+                              height: 200,
+                              width: 200,
                               child: Image.network(
                                   snapshot.data.docs[index]["Image"]),
                             ),
@@ -67,26 +88,35 @@ class NCartPageState extends State<NCartPage> {
                             ),
                             Expanded(
                               child: SizedBox(
-                                height: 150,
+                                height: 200,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const SizedBox(
-                                      height: 10,
+                                      height: 20,
                                     ),
                                     Text(
                                       snapshot.data.docs[index]["Title"],
-                                      maxLines: 1,
+                                      maxLines: 3,
                                       overflow: TextOverflow.ellipsis,
+                                      style: CustomTextStyle.titleOfTextStyle,
                                     ),
                                     const SizedBox(
                                       height: 10,
                                     ),
                                     Row(
                                       children: [
-                                        const Text("Rs: "),
-                                        Text(snapshot.data.docs[index]["Price"])
+                                        const Text(
+                                          "Price: \$",
+                                          style:
+                                              CustomTextStyle.priceOfTextStyle,
+                                        ),
+                                        Text(
+                                          snapshot.data.docs[index]["Price"],
+                                          style:
+                                              CustomTextStyle.priceOfTextStyle,
+                                        )
                                       ],
                                     ),
                                     const SizedBox(
@@ -94,9 +124,14 @@ class NCartPageState extends State<NCartPage> {
                                     ),
                                     Row(
                                       children: [
-                                        const Text("Qty :  "),
-                                        Text(snapshot.data.docs[index]
-                                            ["Quantity"])
+                                        const Text("Quantity :  ",
+                                            style:
+                                                CustomTextStyle.qtyOfTextStyle),
+                                        Text(
+                                            snapshot.data.docs[index]
+                                                ["Quantity"],
+                                            style:
+                                                CustomTextStyle.qtyOfTextStyle)
                                       ],
                                     ),
                                     const SizedBox(
@@ -109,7 +144,9 @@ class NCartPageState extends State<NCartPage> {
                                               showModalBottomSheet(
                                                   barrierColor:
                                                       Colors.transparent,
-                                                  backgroundColor: Colors.white,
+                                                  backgroundColor:
+                                                      const Color.fromARGB(
+                                                          255, 221, 219, 219),
                                                   elevation: 10,
                                                   shape: RoundedRectangleBorder(
                                                     borderRadius:
@@ -132,7 +169,7 @@ class NCartPageState extends State<NCartPage> {
                                                             ),
                                                             SizedBox(
                                                               height: 200,
-                                                              width: 200,
+                                                              width: 300,
                                                               child: Image.network(
                                                                   snapshot.data
                                                                               .docs[
@@ -143,32 +180,35 @@ class NCartPageState extends State<NCartPage> {
                                                             const SizedBox(
                                                               height: 5,
                                                             ),
-                                                            Text(snapshot.data
-                                                                    .docs[index]
-                                                                ["Title"]),
+                                                            Text(
+                                                              snapshot.data
+                                                                          .docs[
+                                                                      index]
+                                                                  ["Title"],
+                                                              maxLines: 3,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
+                                                              style: CustomTextStyle
+                                                                  .titleOfTextStyle,
+                                                            ),
                                                             const SizedBox(
                                                               height: 5,
                                                             ),
                                                             Row(
                                                               children: [
                                                                 const Text(
-                                                                  "Price :  ",
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .orange,
-                                                                      fontSize:
-                                                                          20),
+                                                                  "Price :  \$",
+                                                                  style: CustomTextStyle
+                                                                      .priceOfTextStyle,
                                                                 ),
                                                                 Text(
                                                                     snapshot.data
                                                                             .docs[index]
                                                                         [
                                                                         "Price"],
-                                                                    style: const TextStyle(
-                                                                        color: Colors
-                                                                            .orange,
-                                                                        fontSize:
-                                                                            20)),
+                                                                    style: CustomTextStyle
+                                                                        .priceOfTextStyle),
                                                               ],
                                                             ),
                                                             const SizedBox(
@@ -178,9 +218,8 @@ class NCartPageState extends State<NCartPage> {
                                                               children: [
                                                                 const Text(
                                                                   "Quantity : ",
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          15),
+                                                                  style: CustomTextStyle
+                                                                      .qtyOfTextStyle,
                                                                 ),
                                                                 CustomNumberPicker(
                                                                   valueTextStyle:
@@ -298,10 +337,13 @@ class NCartPageState extends State<NCartPage> {
                                                                 MaterialButton(
                                                                     color: Colors
                                                                         .orange,
+                                                                    textColor:
+                                                                        Colors
+                                                                            .white,
                                                                     minWidth:
                                                                         100,
                                                                     elevation:
-                                                                        0,
+                                                                        10,
                                                                     onPressed:
                                                                         () {
                                                                       FirebaseFirestore
@@ -410,18 +452,36 @@ class NCartPageState extends State<NCartPage> {
                           }
                           return Padding(
                               padding: const EdgeInsets.only(left: 16),
-                              child: Text(
-                                'Total: Rs.${total.toString()}',
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.money,
+                                    color: Colors.green,
+                                    size: 30,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Total amount: \$${total.toString()}',
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ],
                               ));
                         } else {
                           return Padding(
                               padding: const EdgeInsets.only(left: 16),
                               child: Text(
-                                'Total: Rs.${total.toString()}',
+                                'Total amount: \$${total.toString()}',
                                 style: const TextStyle(
-                                    color: Colors.black, fontSize: 20),
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ));
                         }
                       }
@@ -435,8 +495,11 @@ class NCartPageState extends State<NCartPage> {
                           duration: const Duration(seconds: 2));
                     },
                     child: const Text(
-                      "Check Out",
-                      style: TextStyle(color: Colors.black),
+                      "Checkout",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )),
               ],
             ),

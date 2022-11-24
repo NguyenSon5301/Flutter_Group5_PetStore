@@ -5,15 +5,15 @@ import 'package:get/get.dart';
 import 'alltitle_product.dart';
 import 'detail_page.dart';
 
-class AllProducts extends StatefulWidget {
+class DogProducts extends StatefulWidget {
   final String title;
-  const AllProducts({Key? key, required this.title}) : super(key: key);
+  const DogProducts({Key? key, required this.title}) : super(key: key);
 
   @override
-  State<AllProducts> createState() => _AllProductsState();
+  State<DogProducts> createState() => _DogProductsState();
 }
 
-class _AllProductsState extends State<AllProducts> {
+class _DogProductsState extends State<DogProducts> {
   final ScrollController scrollController = ScrollController();
   void onListen() {
     setState(() {});
@@ -35,7 +35,10 @@ class _AllProductsState extends State<AllProducts> {
   Widget build(BuildContext context) {
     if (widget.title.isEmpty) {
       return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('products').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('products')
+            .where('Category', isEqualTo: 'Dog')
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return SizedBox(

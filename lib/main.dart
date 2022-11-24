@@ -19,10 +19,7 @@ void main() async {
       appId: "1:526528834570:web:1fc1b661c9d7337f7143f3",
       measurementId: "G-7QKCVY1QMF",
     ),
-  ).then((value) {
-    // Get.put(ProducsController());
-    // Get.put(AppController());
-  });
+  );
   runApp(const MyApp());
 }
 
@@ -48,8 +45,8 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Georgia',
           textTheme: const TextTheme(
             headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
-            headline6: TextStyle(fontSize: 20.0, fontStyle: FontStyle.italic),
-            bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+            headline6: TextStyle(fontSize: 20.0, fontStyle: FontStyle.normal),
+            bodyText2: TextStyle(fontSize: 18.0, fontFamily: 'Hind'),
           ),
         ),
         home: const Wrapper(),

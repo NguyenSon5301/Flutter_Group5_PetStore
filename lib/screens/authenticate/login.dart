@@ -38,6 +38,7 @@ class _Login extends State<Login> {
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             hintText: "Email",
+            hintStyle: const TextStyle(color: Colors.orangeAccent),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))));
 
@@ -58,6 +59,7 @@ class _Login extends State<Login> {
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
             hintText: "Password",
+            hintStyle: const TextStyle(color: Colors.orangeAccent),
             suffixIcon: IconButton(
               icon:
                   Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
@@ -78,9 +80,9 @@ class _Login extends State<Login> {
         child: const Text('New? Register here'));
 
     final loginAnonymousButon = Material(
-      elevation: 5.0,
+      elevation: 10.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Theme.of(context).primaryColor,
+      color: Colors.orange,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -98,9 +100,9 @@ class _Login extends State<Login> {
                 });
           }
         },
-        child: Text(
+        child: const Text(
           "Log in Anonymously",
-          style: TextStyle(color: Theme.of(context).primaryColorLight),
+          style: TextStyle(color: Colors.white, fontSize: 20),
           textAlign: TextAlign.center,
         ),
       ),
@@ -109,7 +111,7 @@ class _Login extends State<Login> {
     final loginEmailPasswordButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
-      color: Theme.of(context).primaryColor,
+      color: Colors.orange,
       child: MaterialButton(
         minWidth: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -129,9 +131,12 @@ class _Login extends State<Login> {
             }
           }
         },
-        child: Text(
+        child: const Text(
           "Log in",
-          style: TextStyle(color: Theme.of(context).primaryColorLight),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
           textAlign: TextAlign.center,
         ),
       ),
@@ -140,11 +145,16 @@ class _Login extends State<Login> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Login Demo Page'),
-        backgroundColor: Theme.of(context).primaryColor,
+        title: const Center(
+          child: Text(
+            'Group 5',
+            style: TextStyle(fontSize: 30),
+          ),
+        ),
+        backgroundColor: Colors.orange,
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Form(
             key: _formKey,
@@ -154,6 +164,14 @@ class _Login extends State<Login> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset('images/login.jpg',
+                        width: 400, height: 400),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   loginAnonymousButon,
                   const SizedBox(height: 45.0),
                   emailField,

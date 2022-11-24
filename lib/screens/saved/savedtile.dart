@@ -6,8 +6,13 @@ class SavedTile extends StatefulWidget {
   final String title;
   final String price;
   final String image;
+  final String category;
   const SavedTile(
-      {Key? key, required this.title, required this.price, required this.image})
+      {Key? key,
+      required this.title,
+      required this.price,
+      required this.image,
+      required this.category})
       : super(key: key);
 
   @override
@@ -61,7 +66,10 @@ class _SavedTileState extends State<SavedTile> {
                               .doc(widget.title)
                               .delete();
                         },
-                        icon: const Icon(Icons.star))
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Colors.redAccent,
+                        ))
                   ],
                 ),
                 const SizedBox(
@@ -108,7 +116,26 @@ class _SavedTileState extends State<SavedTile> {
                   child: MaterialButton(
                     elevation: 0,
                     color: Colors.black,
-                    onPressed: () {},
+                    onPressed: () {
+                      DocumentReference documentReference = FirebaseFirestore
+                          .instance
+                          .collection('User')
+                          .doc(FirebaseAuth.instance.currentUser!.email
+                              .toString())
+                          .collection('Cart')
+                          .doc(widget.title);
+                      Map<String, dynamic> add = {
+                        'Title': widget.title.toString(),
+                        'Price': widget.price.toString(),
+                        'Image': widget.image.toString(),
+                        'Category': widget.category.toString(),
+                        'Quantity': 1.toString()
+                      };
+                      documentReference.set(add).then((value) =>
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text('${widget.title} is added to cart'))));
+                    },
                     child: const Icon(
                       Icons.add_shopping_cart_rounded,
                       color: Colors.white,

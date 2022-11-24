@@ -1,5 +1,5 @@
 class FirebaseUser {
   final String? uid;
-  final String? code; //code firebaseauth excemption
+  final String? code;
   FirebaseUser({this.uid, this.code});
 }

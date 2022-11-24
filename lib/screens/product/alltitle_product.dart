@@ -6,6 +6,7 @@ class AllTile extends StatefulWidget {
   final String title;
   final String price;
   final String image;
+  final String category;
   // final double opacity;
 
   final VoidCallback callback;
@@ -15,6 +16,7 @@ class AllTile extends StatefulWidget {
     required this.price,
     required this.image,
     required this.callback,
+    required this.category,
     // required this.opacity,
   }) : super(key: key);
 
@@ -22,6 +24,7 @@ class AllTile extends StatefulWidget {
   State<AllTile> createState() => _allTileState();
 }
 
+// ignore: camel_case_types
 class _allTileState extends State<AllTile> {
   int select = 0;
   final List<IconData> allIcons = [Icons.star_border, Icons.star];
@@ -33,6 +36,8 @@ class _allTileState extends State<AllTile> {
       child: GestureDetector(
         onTap: widget.callback,
         child: Container(
+            height: 10,
+            width: 10,
             decoration: BoxDecoration(boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.3),
@@ -78,16 +83,26 @@ class _allTileState extends State<AllTile> {
                               Map<String, dynamic> add = {
                                 'Title': widget.title.toString(),
                                 'Price': widget.price.toString(),
-                                'Image': widget.image.toString()
+                                'Image': widget.image.toString(),
+                                'Category': widget.category.toString(),
                               };
                               setState(() {
-                                select = 1;
+                                if (select == 0) {
+                                  select = 1;
+                                  documentReference.set(add).then((value) =>
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  '${widget.title} is Saved...'))));
+                                } else {
+                                  select = 0;
+                                  documentReference.delete().then((value) =>
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  '${widget.title} is Deleted...'))));
+                                }
                               });
-                              documentReference.set(add).then((value) =>
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              '${widget.title} is Saved...'))));
                             },
                             icon: Icon(allIcons[select]))
                       ],
@@ -101,9 +116,9 @@ class _allTileState extends State<AllTile> {
                         widget.title,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                            color: Colors.orange,
+                            color: Color.fromARGB(255, 190, 150, 90),
                             fontFamily: 'roboto',
-                            fontSize: 17),
+                            fontSize: 18),
                       ),
                     ),
                     const SizedBox(
@@ -113,7 +128,7 @@ class _allTileState extends State<AllTile> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         const Text(
-                          "Rs. ",
+                          "Price: ",
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -132,7 +147,7 @@ class _allTileState extends State<AllTile> {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 170),
+                      padding: const EdgeInsets.only(bottom: 100),
                       child: MaterialButton(
                         elevation: 0,
                         color: Colors.black,
@@ -148,7 +163,8 @@ class _allTileState extends State<AllTile> {
                             'Title': widget.title.toString(),
                             'Price': widget.price.toString(),
                             'Image': widget.image.toString(),
-                            'Quantity': 1.toString()
+                            'Quantity': 1.toString(),
+                            'Category': widget.category.toString(),
                           };
                           documentReference.set(add).then((value) =>
                               ScaffoldMessenger.of(context).showSnackBar(
