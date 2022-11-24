@@ -93,7 +93,7 @@ class _SavedTileState extends State<SavedTile> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
-                      "Rs. ",
+                      "Price: ",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
