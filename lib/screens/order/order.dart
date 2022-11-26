@@ -19,11 +19,6 @@ class _OrderPageState extends State<OrderPage> {
   List<Order> orders = [];
   final user = FirebaseAuth.instance.currentUser!;
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.orangeAccent,
@@ -40,7 +35,7 @@ class _OrderPageState extends State<OrderPage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection('User')
-            .doc(FirebaseAuth.instance.currentUser!.email.toString())
+            .doc(user.email.toString())
             .collection('Orders')
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {

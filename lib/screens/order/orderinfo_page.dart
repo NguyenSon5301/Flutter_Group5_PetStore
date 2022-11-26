@@ -33,7 +33,6 @@ class _OrderInfoState extends State<OrderInfo> {
             .collection('User')
             .doc(FirebaseAuth.instance.currentUser!.email.toString())
             .collection('CusInfo')
-            // .doc(FirebaseAuth.instance.currentUser!.email.toString())
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData && snapshot.data!.size != 0) {
@@ -402,7 +401,7 @@ class _OrderInfoState extends State<OrderInfo> {
                         const Padding(
                           padding: EdgeInsets.only(left: 8),
                           child: Text(
-                            'Gender',
+                            'Payment method',
                             style:
                                 TextStyle(fontSize: 20, fontFamily: 'roboto'),
                           ),
@@ -816,7 +815,7 @@ class _OrderInfoState extends State<OrderInfo> {
                         const Padding(
                           padding: EdgeInsets.only(left: 8),
                           child: Text(
-                            'Gender',
+                            'Payment method',
                             style:
                                 TextStyle(fontSize: 20, fontFamily: 'roboto'),
                           ),
